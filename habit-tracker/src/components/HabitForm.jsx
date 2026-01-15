@@ -1,25 +1,33 @@
-function HabitForm(){
+function HabitForm({form, handleFormChange, handleFormSubmit}){
+    const handleSubmit = (e) => { 
+      e.preventDefault()
+      handleFormSubmit()
+    }
+  
     return(
                 <div className="add-habit-section">
                 <h2>➕ Add New Habit</h2>
-                <form className="form-grid">
+                <form onSubmit={handleSubmit} className="form-grid">
                     <div className="form-group">
                         <label for="habit-name">Habit Name</label>
                         <input
                             type="text"
+                            value={form.habitName}
                             id="habit-name"
+                            name="habitName"
+                            onChange={handleFormChange}
                             placeholder="e.g., Morning Exercise"
-                            value="" />
+                             />
                     </div>
 
                     <div className="form-row">
                         <div className="form-group">
                             <label for="frequency">Frequency</label>
-                            <select id="frequency">
-                                <option>Daily</option>
-                                <option>Weekly</option>
-                                <option>Weekdays</option>
-                                <option>Weekends</option>
+                            <select onChange={handleFormChange} name="frequency" id="frequency" value={form.frequency}> 
+                                <option value = "daily">Daily</option>
+                                <option value = "weekly">Weekly</option>
+                                <option value = "weekdays">Weekdays</option>
+                                <option value = "weekends">Weekends</option>
                             </select>
                         </div>
 
@@ -29,8 +37,10 @@ function HabitForm(){
                             </label>
                             <input
                                 type="time"
+                                name="notificationTime"
                                 id="notification-time"
-                                value="07:00" />
+                                value={form.notificationTime} 
+                                onChange={handleFormChange}/>
                         </div>
                     </div>
 
@@ -58,7 +68,7 @@ function HabitForm(){
                         </div>
                     </div>
 
-                    <button type="button" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary">
                         Add Habit
                     </button>
                 </form>
