@@ -6,7 +6,7 @@ function History() {
  return (
             <div class="container">
             <header>
-                <button class="back-btn" onClick={() => useNavigate("/")}>← Back to Dashboard</button>
+                <button class="back-btn" onClick={() => navigate("/")}>← Back to Dashboard</button>
                 <h1>📊 Progress Timeline</h1>
                 <div></div>
             </header>
