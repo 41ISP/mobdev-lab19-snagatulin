@@ -1,5 +1,5 @@
-function HabitCard({name, notificationTime, frequency, streak, isToday, color}) {
-    return( 
+function HabitCard({name, notificationTime, frequency, streak, isToday, color, toogleToday}) {
+    return(  
                         <div className="habit-card" >
                     <div className="habit-info">
                         <div className="habit-name">{name}</div>
@@ -16,7 +16,7 @@ function HabitCard({name, notificationTime, frequency, streak, isToday, color}) 
                     </div>
                     <div className="habit-actions">
                         <div className="streak-badge">🔥 {streak} days</div>
-                        <button className={`check-btn${isToday ? " completed" : ""}`}>{isToday ? "✓" : "○"}</button>
+                        <button onClick={toogleToday} className={`check-btn${isToday ? " completed" : ""}`}>{isToday ? "✓" : "○"}</button>
                     </div>
                 </div>
     )

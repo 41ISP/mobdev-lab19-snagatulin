@@ -1,6 +1,8 @@
 import "./History.css"
+import {useNavigate} from "react-router-dom"
 
 function History() {
+    const navigate = useNavigate()
  return (
             <div class="container">
             <header>

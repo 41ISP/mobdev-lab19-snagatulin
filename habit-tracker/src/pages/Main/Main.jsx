@@ -3,15 +3,19 @@ import "./Main.css"
 import HabitCard from "../../components/HabitCard";
 import HabitForm from "../../components/HabitForm";
 import Stats from "../../components/Stats";
+import {nanoid} from "nanoid"
+
 const initialHabits = [ {
+     id: nanoid(),
      name: "Изучить React",
      notificationTime: "7:00PM",
      frequency: "daily",
-     streak: 9,
+     streak: 99,
      isToday: true,
      color: "green",
 },
 {
+     id: nanoid(), 
      name: "Изучить Жалюзоведенье",
      notificationTime: "8:00PM",
      frequency: "daily",
@@ -32,9 +36,10 @@ function Main() {
       const{name, value} = e.target
       setForm((prev) => ({...prev, [name]: value}))
     }
-
+    
     const handleFormSubmit = () => {
     const newHabit = {
+     id: nanoid(),
      name: form.habitName,
      notificationTime: form.notificationTime,
      frequency: form.frequency,
@@ -43,8 +48,13 @@ function Main() {
      color: "red",
     }
     setHabits((val) => [...val, newHabit])
-    }
+    } 
+    const toogleToday = (id) => {
+        const oldHabit = habits.find((el) => el.id === id)
+        const newHabit = {...oldHabit, isToday: !oldHabit.isToday, streak: oldHabit.isToday ? oldHabit.streak - 1 : oldHabit.streak + 1}
+        setHabits((state) => state.map((el) => el.id == id ? newHabit : el))
 
+    }
    return (
            <div className="container">
             <header>
@@ -59,7 +69,7 @@ function Main() {
             <div className="habits-section">
                 <h2>📋 Today's Habits</h2>
 
-              {habits.map((el) => <HabitCard {...el}/>)}
+              {habits.sort((a,b) => b.streak - a.streak).map((el) => <HabitCard {...el} toogleToday={() => toogleToday(el.id)}/>)}
             </div>
         </div>
    )
