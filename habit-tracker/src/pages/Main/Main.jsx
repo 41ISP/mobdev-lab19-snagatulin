@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Main.css"
 import HabitCard from "../../components/HabitCard";
 import HabitForm from "../../components/HabitForm";
 import Stats from "../../components/Stats";
 import {nanoid} from "nanoid"
+import { getObject, setObject } from "../../utils/storage";
+import { useNavigate } from "react-router-dom";
 
 const initialHabits = [ {
      id: nanoid(),
@@ -24,8 +26,17 @@ const initialHabits = [ {
      color: "red",
 }
 ]
+
 function Main() { 
-    const[habits, setHabits] = useState(initialHabits)
+    const[habits, setHabits] = useState([])
+    const navigate = useNavigate()
+    useEffect(() => {
+    const loadHabits = async () => {
+      const habits = await getObject("habits")
+      setHabits(habits)
+    }
+    loadHabits()
+    }, [])
     const[form, setForm] = useState({
         habitName: "",
         frequency: "daily",
@@ -55,6 +66,11 @@ function Main() {
         setHabits((state) => state.map((el) => el.id == id ? newHabit : el))
 
     }
+
+    useEffect(() => {
+        setObject("habits", habits)
+    }, [habits])
+
    return (
            <div className="container">
             <header>
@@ -69,7 +85,7 @@ function Main() {
             <div className="habits-section">
                 <h2>📋 Today's Habits</h2>
 
-              {habits.sort((a,b) => b.streak - a.streak).map((el) => <HabitCard {...el} toogleToday={() => toogleToday(el.id)}/>)}
+              {habits.sort((a,b) => b.streak - a.streak).map((el) => <HabitCard {...el} toogleToday={() => toogleToday(el.id)} onClick ={() => navigate(`/history/${el.id}`)}/>)}
             </div>
         </div>
    )

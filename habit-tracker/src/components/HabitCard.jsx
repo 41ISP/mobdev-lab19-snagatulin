@@ -1,7 +1,7 @@
-function HabitCard({name, notificationTime, frequency, streak, isToday, color, toogleToday}) {
+function HabitCard({onClick, name, notificationTime, frequency, streak, isToday, color, toogleToday}) {
     return(  
                         <div className="habit-card" >
-                    <div className="habit-info">
+                    <div className="habit-info" onClick={onClick}>
                         <div className="habit-name">{name}</div>
                         <div className="habit-meta">
                             <div className="habit-meta-item">

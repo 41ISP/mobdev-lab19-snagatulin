@@ -1,7 +1,7 @@
 function Stats({habits, isToday})
 {
     const completedTaskAmount = habits.filter((el) => el.isToday).length
-    return(
+    return habits.length > 0 && (
             <div className="stats-grid">
                 <div className="stat-card">
                     <div className="stat-value">{habits.length}</div>
