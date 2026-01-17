@@ -33,7 +33,7 @@ function Main() {
     useEffect(() => {
     const loadHabits = async () => {
       const habits = await getObject("habits")
-      setHabits(habits)
+      setHabits(habits || [])
     }
     loadHabits()
     }, [])
@@ -57,6 +57,7 @@ function Main() {
      streak: 11,
      isToday: false,
      color: "red",
+     startDate: new Date()
     }
     setHabits((val) => [...val, newHabit])
     } 

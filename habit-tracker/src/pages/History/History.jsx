@@ -1,9 +1,22 @@
+import { useEffect, useState } from "react"
 import "./History.css"
-import {useNavigate} from "react-router-dom"
+import {useNavigate, useParams} from "react-router-dom"
+import { getObject } from "../../utils/storage"
+import { formatDate } from "../../utils/formatters"
 
 function History() {
+    const {id} = useParams()
+    const [habit, setHabit] = useState(undefined)
+    useEffect(() => {
+         const loadHabits = async() => {
+              const habits = await getObject("habits")
+              setHabit(habits.find((el) => el.id == id))
+         }
+         loadHabits()
+    }, [])
     const navigate = useNavigate()
- return (
+    
+ return habit && (
             <div class="container">
             <header>
                 <button class="back-btn" onClick={() => navigate("/")}>← Back to Dashboard</button>
@@ -23,27 +36,21 @@ function History() {
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label>Time Period:</label>
-                    <select>
-                        <option>Last 7 Days</option>
-                        <option>Last 30 Days</option>
-                        <option>Last 90 Days</option>
-                        <option>All Time</option>
-                    </select>
+                {habit.name}
                 </div>
             </div>
 
             <div class="habit-detail-card">
                 <div class="habit-header">
                     <div class="habit-title-section">
-                        <div class="habit-title">🧘 Morning Meditation</div>
+                        <div class="habit-title"> {habit.name}</div>
                         <div class="habit-subtitle">
-                            Started on December 28, 2025 • Daily at 07:00 AM
+                            Started on {formatDate(habit.startDate)} • {habit.frequency} at {habit.notificationTime}
                         </div>
                     </div>
                     <div class="habit-stats-grid">
                         <div class="stat-box">
-                            <div class="stat-box-value">15</div>
+                            <div class="stat-box-value">{habit.streak}</div>
                             <div class="stat-box-label">Current Streak</div>
                         </div>
                         <div class="stat-box">
