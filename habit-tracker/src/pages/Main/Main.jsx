@@ -57,7 +57,7 @@ function Main() {
      streak: 11,
      isToday: false,
      color: "red",
-     startDate: new Date(new Date().setDate(new Date().getDate() -4)), 
+     startDate: new Date(),
      history: []
     }
     setHabits((val) => [...val, newHabit])

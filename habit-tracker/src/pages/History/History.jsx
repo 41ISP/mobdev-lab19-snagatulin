@@ -4,6 +4,7 @@ import {useNavigate, useParams} from "react-router-dom"
 import { getObject } from "../../utils/storage"
 import { formatDate } from "../../utils/formatters"
 import DaysList from "../../components/DaysList"
+import { checkCompleted, daysSince } from "../../utils/utils"
 
 function History() {
     const {id} = useParams()
@@ -29,11 +30,11 @@ function History() {
                 <div className="filter-group">
                     <label>Select Habit:</label>
                     <select>
-                        <option>Morning Meditation</option>
-                        <option>Drink 8 Glasses of Water</option>
-                        <option>Read for 30 Minutes</option>
-                        <option>Evening Workout</option>
-                        <option>Practice Guitar</option>
+                        <option>{habit.name}</option>
+                        <option></option>
+                        <option>{habit.name}</option>
+                        <option>{habit.name}</option>
+                        <option>{habit.name}</option>
                     </select>
                 </div>
                 <div className="filter-group">
@@ -54,16 +55,13 @@ function History() {
                             <div className="stat-box-value">{habit.streak}</div>
                             <div className="stat-box-label">Current Streak</div>
                         </div>
+
                         <div className="stat-box">
-                            <div className="stat-box-value">23</div>
-                            <div className="stat-box-label">Best Streak</div>
-                        </div>
-                        <div className="stat-box">
-                            <div className="stat-box-value">89%</div>
+                            <div className="stat-box-value">{Math.round((habit.history.length/(daysSince(habit.startDate)+ 1)) * 100)}%</div>
                             <div className="stat-box-label">Success Rate</div>
                         </div>
                         <div className="stat-box">
-                            <div className="stat-box-value">47</div>
+                            <div className="stat-box-value">{daysSince(habit.startDate) + 1}</div>
                             <div className="stat-box-label">Total Days</div>
                         </div>
                     </div>
@@ -74,7 +72,7 @@ function History() {
                     <div className="progress-bar-container">
                         <div className="progress-label">
                             <span>Completion Rate</span>
-                            <span><strong>27/30 days</strong></span>
+                            <span><strong>{habit.history.length}/{daysSince(habit.startDate) + 1} days</strong></span>
                         </div>
                         <div className="progress-bar">
                             <div className="progress-fill" ></div>
@@ -84,12 +82,12 @@ function History() {
                         <div className="legend-item">
                             <div
                                 className="legend-color"></div>
-                            <span>Completed (27 days)</span>
+                            <span>Completed ({habit.history.length} days)</span>
                         </div>
                         <div className="legend-item">
                             <div
                                 className="legend-color"></div>
-                            <span>Missed (3 days)</span>
+                            <span>Missed ({(daysSince(habit.startDate) + 1) - habit.history.length})</span>
                         </div>
                     </div>
                 </div>
