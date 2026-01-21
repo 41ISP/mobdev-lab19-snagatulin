@@ -16,20 +16,20 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Step 1: Install Java
-echo -e "${YELLOW}[1/6] Installing Java JDK 17...${NC}"
+echo -e "${YELLOW}[1/6] Installing Java JDK 21...${NC}"
 sudo apt-get update -qq
-sudo apt-get install -y openjdk-17-jdk wget unzip
+sudo apt-get install -y openjdk-21-jdk wget unzip
 
 # Verify Java installation
 echo -e "${GREEN}✓ Java installed:${NC}"
-java -version
+/usr/lib/jvm/java-21-openjdk-amd64/bin/java -version
 echo ""
 
 # Step 2: Set up environment variables
 echo -e "${YELLOW}[2/6] Setting up environment variables...${NC}"
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 export ANDROID_HOME=$HOME/android-sdk
-export PATH=$PATH:$JAVA_HOME/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+export PATH=$JAVA_HOME/bin:$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
 
 echo "JAVA_HOME=$JAVA_HOME"
 echo "ANDROID_HOME=$ANDROID_HOME"
@@ -70,9 +70,9 @@ echo -e "${YELLOW}[6/6] Making environment variables permanent...${NC}"
 if ! grep -q "ANDROID_HOME" ~/.bashrc; then
     echo "" >> ~/.bashrc
     echo "# Android SDK Environment Variables" >> ~/.bashrc
-    echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> ~/.bashrc
+    echo "export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64" >> ~/.bashrc
     echo "export ANDROID_HOME=\$HOME/android-sdk" >> ~/.bashrc
-    echo "export PATH=\$PATH:\$JAVA_HOME/bin:\$ANDROID_HOME/cmdline-tools/latest/bin:\$ANDROID_HOME/platform-tools" >> ~/.bashrc
+    echo "export PATH=\$JAVA_HOME/bin:\$PATH:\$ANDROID_HOME/cmdline-tools/latest/bin:\$ANDROID_HOME/platform-tools" >> ~/.bashrc
     echo -e "${GREEN}✓ Added to ~/.bashrc${NC}"
 else
     echo -e "${GREEN}✓ Already in ~/.bashrc${NC}"
@@ -85,7 +85,7 @@ echo -e "${GREEN}✓ Installation Complete!${NC}"
 echo "=========================================="
 echo ""
 echo "Installed components:"
-echo "  - Java JDK 17"
+echo "  - Java JDK 21"
 echo "  - Android SDK Command Line Tools"
 echo "  - Android Platform 33"
 echo "  - Android Build Tools 33.0.0"
@@ -98,8 +98,11 @@ echo "     npm run build"
 echo "     npx cap add android"
 echo "     npx cap sync android"
 echo "     chmod +x android/gradlew"
-echo "     cd android && ./gradlew assembleDebug"
+echo "     cd android && JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ./gradlew assembleDebug"
 echo ""
 echo "Your APK will be at:"
 echo "  android/app/build/outputs/apk/debug/app-debug.apk"
+echo ""
+echo "TIP: If you have multiple Java versions, always build with:"
+echo "  JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ./gradlew assembleDebug"
 echo ""
